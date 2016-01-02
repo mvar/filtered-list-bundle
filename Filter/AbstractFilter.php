@@ -44,7 +44,11 @@ abstract class AbstractFilter implements FilterInterface
      */
     public function initializeData(Request $request)
     {
-        return new FilterData($this->alias, $this->config, $request->get($this->config['request_parameter']));
+        $config = ['type' => $this->getType(), 'alias' => $this->alias];
+        $config = array_merge($config, $this->config);
+        unset($config['field']);
+
+        return new FilterData($config, $request->get($this->config['request_parameter']));
     }
 
     /**

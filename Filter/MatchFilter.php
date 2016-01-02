@@ -20,6 +20,14 @@ class MatchFilter extends AbstractFilter implements FilterInterface
     public function getWhereSnippet(FilterDataInterface $filterData)
     {
         // TODO: escape value
-        return sprintf("%s = '%s'", $filterData->getField(), $filterData->getValue());
+        return sprintf("%s = '%s'", $this->getConfig()['field'], $filterData->getValue());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'match';
     }
 }

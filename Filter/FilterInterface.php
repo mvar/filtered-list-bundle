@@ -17,6 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 interface FilterInterface
 {
     /**
+     * Returns filter type.
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
      * Returns initial filter data object.
      *
      * @param Request $request
@@ -26,7 +33,7 @@ interface FilterInterface
     public function initializeData(Request $request);
 
     /**
-     * Returns snippet for WHERE clause.
+     * Returns DQL snippet for WHERE clause. This method is only called when filter is active.
      *
      * @param FilterDataInterface $filterData
      *

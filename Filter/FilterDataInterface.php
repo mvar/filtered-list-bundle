@@ -43,13 +43,6 @@ interface FilterDataInterface
     public function getRequestParameter();
 
     /**
-     * Returns entity field name.
-     *
-     * @return string
-     */
-    public function getField();
-
-    /**
      * Returns current value.
      *
      * @return mixed

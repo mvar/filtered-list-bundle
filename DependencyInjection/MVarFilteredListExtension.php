@@ -105,6 +105,8 @@ class MVarFilteredListExtension extends Extension
         switch ($filter) {
             case 'match';
                 return 'MVar\FilteredListBundle\Filter\MatchFilter';
+            case 'range';
+                return 'MVar\FilteredListBundle\Filter\RangeFilter';
             case 'pager';
                 return 'MVar\FilteredListBundle\Pager\PagerFilter';
         }

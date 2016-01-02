@@ -26,4 +26,12 @@ class PagerFilter extends AbstractFilter implements PagerFilterInterface
     {
         // TODO: Implement getPager() method.
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'pager';
+    }
 }

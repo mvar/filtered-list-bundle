@@ -14,11 +14,6 @@ use MVar\FilteredListBundle\Filter\FilterDataInterface;
 class FilterData implements FilterDataInterface
 {
     /**
-     * @var string
-     */
-    private $alias;
-
-    /**
      * @var array
      */
     private $parameters;
@@ -31,13 +26,11 @@ class FilterData implements FilterDataInterface
     /**
      * Constructor.
      *
-     * @param string $alias
      * @param array  $parameters
      * @param mixed  $value
      */
-    public function __construct($alias, array $parameters, $value)
+    public function __construct(array $parameters, $value)
     {
-        $this->alias = $alias;
         $this->parameters = $parameters;
         $this->value = $value;
     }
@@ -55,7 +48,7 @@ class FilterData implements FilterDataInterface
      */
     public function getAlias()
     {
-        return $this->alias;
+        return $this->parameters['alias'];
     }
 
     /**
@@ -72,14 +65,6 @@ class FilterData implements FilterDataInterface
     public function getRequestParameter()
     {
         return $this->parameters['request_parameter'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getField()
-    {
-        return $this->parameters['field'];
     }
 
     /**

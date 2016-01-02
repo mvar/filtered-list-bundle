@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('filters')
                     ->children()
                         ->append($this->buildFilterNode('match'))
+                        ->append($this->buildFilterNode('range'))
                         ->append($this->buildFilterNode('pager'))
                     ->end()
                 ->end()
