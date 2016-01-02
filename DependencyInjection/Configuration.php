@@ -75,6 +75,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->append($this->buildFilterNode('match'))
                         ->append($this->buildFilterNode('range'))
+                        ->append($this->buildFilterNode('choice'))
                         ->append($this->buildFilterNode('pager'))
                     ->end()
                 ->end()
@@ -106,6 +107,23 @@ class Configuration implements ConfigurationInterface
                 ->end();
 
         switch ($filter) {
+            case 'choice':
+                $children
+                    ->children()
+                        ->arrayNode('choices')
+                            ->useAttributeAsKey('value')
+                            ->prototype('array')
+                                ->beforeNormalization()
+                                    ->ifString()->then(function ($v) { return ['name' => $v]; })
+                                ->end()
+                                ->children()
+                                    ->scalarNode('value')->end()
+                                    ->scalarNode('name')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end();
+                break;
             case 'pager':
                 $children
                     ->children()

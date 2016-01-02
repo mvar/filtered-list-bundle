@@ -56,7 +56,7 @@ class FilterData implements FilterDataInterface
      */
     public function isActive()
     {
-        return $this->getValue() !== null;
+        return $this->getValue() !== null && $this->getValue() !== '';
     }
 
     /**
@@ -73,5 +73,15 @@ class FilterData implements FilterDataInterface
     public function getValue()
     {
         return $this->value;
+    }
+
+    /**
+     * Returns parameters.
+     *
+     * @return array
+     */
+    protected function getParameters()
+    {
+        return $this->parameters;
     }
 }

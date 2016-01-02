@@ -10,7 +10,7 @@
 namespace MVar\FilteredListBundle\Filter;
 
 /**
- * This class filters entities where field value matches request parameter value.
+ * This class filters entities where field value is between given range.
  */
 class RangeFilter extends AbstractFilter implements FilterInterface
 {

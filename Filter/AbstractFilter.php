@@ -48,7 +48,19 @@ abstract class AbstractFilter implements FilterInterface
         $config = array_merge($config, $this->config);
         unset($config['field']);
 
-        return new FilterData($config, $request->get($this->config['request_parameter']));
+        $class = $this->getFilterDataClass();
+
+        return new $class($config, $request->get($this->config['request_parameter']));
+    }
+
+    /**
+     * Returns filter data class name.
+     *
+     * @return string
+     */
+    protected function getFilterDataClass()
+    {
+        return 'MVar\FilteredListBundle\Filter\Data\FilterData';
     }
 
     /**
