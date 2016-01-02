@@ -95,11 +95,27 @@ class Configuration implements ConfigurationInterface
 
         $children = $node
             ->useAttributeAsKey('name')
+            ->beforeNormalization()
+                ->always(function ($a) {
+                    foreach ($a as $name => $v) {
+                        if (!is_array($v)) {
+                            $a[$name] = [
+                                'field' => $v,
+                                'request_parameter' => $name,
+                            ];
+                        } elseif (!isset($v['request_parameter'])) {
+                            $a[$name]['request_parameter'] = $v['field'];
+                        }
+                    }
+                    return $a;
+                })
+            ->end()
             ->prototype('array')
                 ->children()
                     ->scalarNode('name')->end()
                     ->scalarNode('field')
                         ->info('Entity field name.')
+                        ->isRequired()
                     ->end()
                     ->scalarNode('request_parameter')    // TODO: get default value from filter "name"
                         ->info('Request parameter name.')
