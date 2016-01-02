@@ -1,0 +1,28 @@
+{
+    "name": "mvar/filtered-list-bundle",
+    "description": "Bundle that allows to easily create filtered lists",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mantas Varatiejus",
+            "email": "var.mantas@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5",
+        "symfony/config": "~2.8|~3.0",
+        "symfony/dependency-injection": "~2.8|~3.0",
+        "symfony/http-foundation": "~2.8|~3.0",
+        "symfony/http-kernel": "~2.8|~3.0",
+        "doctrine/orm": "2.5.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "MVar\\FilteredListBundle\\": ""
+        }
+    }
+}
