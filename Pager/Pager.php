@@ -61,6 +61,16 @@ class Pager
     }
 
     /**
+     * Returns number of results.
+     *
+     * @return int
+     */
+    public function getResultsCount()
+    {
+        return $this->resultsCount;
+    }
+
+    /**
      * Returns TRUE if next page is available, FALSE otherwise.
      *
      * @return bool

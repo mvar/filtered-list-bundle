@@ -98,13 +98,19 @@ class Configuration implements ConfigurationInterface
             ->beforeNormalization()
                 ->always(function ($a) {
                     foreach ($a as $name => $v) {
+                        if ($name == 'pager') {
+                            if (!isset($v['request_parameter'])) {
+                                $a[$name]['request_parameter'] = 'page';
+                            }
+                            continue;
+                        }
                         if (!is_array($v)) {
                             $a[$name] = [
                                 'field' => $v,
                                 'request_parameter' => $name,
                             ];
                         } elseif (!isset($v['request_parameter'])) {
-                            $a[$name]['request_parameter'] = $v['field'];
+                            $a[$name]['request_parameter'] = $name;
                         }
                     }
                     return $a;
@@ -113,14 +119,20 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->scalarNode('name')->end()
+                    ->scalarNode('request_parameter')
+                        ->info('Request parameter name.')
+                    ->end()
+                ->end();
+
+        if ($filter != 'pager') {
+            $children
+                ->children()
                     ->scalarNode('field')
                         ->info('Entity field name.')
                         ->isRequired()
                     ->end()
-                    ->scalarNode('request_parameter')    // TODO: get default value from filter "name"
-                        ->info('Request parameter name.')
-                    ->end()
                 ->end();
+        }
 
         switch ($filter) {
             case 'choice':
@@ -144,7 +156,7 @@ class Configuration implements ConfigurationInterface
                 $children
                     ->children()
                         ->integerNode('items_per_page')
-                        ->defaultValue(5) // TODO: make 10
+                            ->defaultValue(10)
                         ->end()
                     ->end();
                 break;

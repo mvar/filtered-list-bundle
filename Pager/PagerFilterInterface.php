@@ -9,6 +9,7 @@
 
 namespace MVar\FilteredListBundle\Pager;
 
+use MVar\FilteredListBundle\Filter\FilterDataInterface;
 use MVar\FilteredListBundle\Filter\FilterInterface;
 
 /**
@@ -19,7 +20,10 @@ interface PagerFilterInterface extends FilterInterface
     /**
      * Returns instance of pager.
      *
+     * @param FilterDataInterface $filterData
+     * @param int                 $resultsCount
+     *
      * @return Pager
      */
-    public function getPager();
+    public function getPager(FilterDataInterface $filterData, $resultsCount);
 }

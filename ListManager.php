@@ -12,6 +12,7 @@ namespace MVar\FilteredListBundle;
 use Doctrine\ORM\EntityManagerInterface;
 use MVar\FilteredListBundle\Filter\FilterDataInterface;
 use MVar\FilteredListBundle\Filter\FilterInterface;
+use MVar\FilteredListBundle\Pager\Pager;
 use MVar\FilteredListBundle\Pager\PagerFilterInterface;
 use MVar\FilteredListBundle\Result\FilteredList;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,15 +90,22 @@ class ListManager
     public function handleRequest(Request $request)
     {
         $filterData = $this->initializeFilterData($request);
-
         $query = $this->buildQuery($filterData);
 
-        $results = $this->getResults($query);
+        if ($this->pager !== null) {
+            $pagerData = $this->pager->initializeData($request);
+            $resultsCount = $this->getResultsCount($query);
+            $pager = $this->pager->getPager($pagerData, $resultsCount);
+        } else {
+            $pager = null;
+        }
+
+        $results = $this->getResults($query, $pager);
 
         // TODO: get choices
 
 
-        return $this->buildFilteredList($results, $filterData);
+        return $this->buildFilteredList($results, $filterData, $pager);
     }
 
     // TODO: move all private stuff to separate class
@@ -146,37 +154,43 @@ class ListManager
     }
 
     /**
-     * Returns DQL snippet for LIMIT clause.
-     *
-     * @return string
-     */
-    private function getLimitSnippet()
-    {
-        if ($this->pager === null) {
-            return '';
-        }
-
-        $pager = $this->pager->getPager();
-        $offset = $pager->getItemsPerPage();
-        $from = $pager->getPage() * $offset - $offset;
-
-        return sprintf(' LIMIT %d, %d', $from, $offset);
-    }
-
-    /**
      * Executes query and fetches results.
      *
      * @param string $dql
+     * @param Pager  $pager
      *
      * @return array
      */
-    private function getResults($dql)
+    private function getResults($dql, $pager)
     {
         // TODO: add sort snippet
 
-        $query = $this->entityManager->createQuery($dql . $this->getLimitSnippet());
+        $query = $this->entityManager->createQuery($dql);
+
+        if ($this->pager !== null) {
+            $limit = $pager->getItemsPerPage();
+            $query->setMaxResults($pager->getItemsPerPage());
+            $query->setFirstResult($pager->getPage() * $limit - $limit);
+        }
 
         return $query->getResult();
+    }
+
+    /**
+     * Gets total results count.
+     *
+     * @param string $dql
+     *
+     * @return int
+     */
+    private function getResultsCount($dql)
+    {
+        $query = $this->entityManager->createQuery(
+            // TODO: fix hardcoded "p.id"
+            str_replace('SELECT ' . $this->select, 'SELECT COUNT(p.id) cnt', $dql)
+        );
+
+        return $query->getSingleScalarResult();
     }
 
     /**
@@ -184,11 +198,12 @@ class ListManager
      *
      * @param array                 $results
      * @param FilterDataInterface[] $filterData
+     * @param Pager                 $pager
      *
      * @return FilteredList
      */
-    private function buildFilteredList($results, $filterData)
+    private function buildFilteredList($results, $filterData, $pager)
     {
-        return new FilteredList($results, $filterData);
+        return new FilteredList($results, $filterData, $pager);
     }
 }

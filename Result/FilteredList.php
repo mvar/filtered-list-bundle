@@ -10,6 +10,7 @@
 namespace MVar\FilteredListBundle\Result;
 
 use MVar\FilteredListBundle\Filter\FilterDataInterface;
+use MVar\FilteredListBundle\Pager\Pager;
 
 class FilteredList implements \IteratorAggregate
 {
@@ -23,18 +24,23 @@ class FilteredList implements \IteratorAggregate
      */
     private $filters;
 
-    private $pager; // TODO: implement
+    /**
+     * @var Pager|null
+     */
+    private $pager;
 
     /**
      * Constructor.
      *
      * @param array|\Iterator       $results
      * @param FilterDataInterface[] $filters
+     * @param Pager                 $pager
      */
-    public function __construct($results, $filters)
+    public function __construct($results, $filters, $pager = null)
     {
         $this->results = $results;
         $this->filters = $filters;
+        $this->pager = $pager;
     }
 
     /**
@@ -45,6 +51,16 @@ class FilteredList implements \IteratorAggregate
     public function getFilters()
     {
         return $this->filters;
+    }
+
+    /**
+     * Returns pager
+     *
+     * @return Pager|null
+     */
+    public function getPager()
+    {
+        return $this->pager;
     }
 
     /**
@@ -79,5 +95,15 @@ class FilteredList implements \IteratorAggregate
         }
 
         throw new \Exception('Result must be an array or implement \Traversable interface.');
+    }
+
+    /**
+     * Returns number of total results.
+     *
+     * @return int
+     */
+    public function getResultsCount()
+    {
+        return $this->pager !== null ? $this->pager->getResultsCount() : count($this->results);
     }
 }
