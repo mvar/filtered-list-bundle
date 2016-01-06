@@ -10,8 +10,8 @@
 namespace MVar\FilteredListBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
-use MVar\FilteredListBundle\Filter\FilterDataInterface;
 use MVar\FilteredListBundle\Filter\FilterInterface;
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use MVar\FilteredListBundle\Pager\Pager;
 use MVar\FilteredListBundle\Pager\PagerFilterInterface;
 use MVar\FilteredListBundle\Result\FilteredList;

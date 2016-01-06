@@ -9,8 +9,9 @@
 
 namespace MVar\FilteredListBundle\Filter\Data;
 
-use MVar\FilteredListBundle\Filter\FilterDataInterface;
-
+/**
+ * Single filter data holder.
+ */
 class FilterData implements FilterDataInterface
 {
     /**

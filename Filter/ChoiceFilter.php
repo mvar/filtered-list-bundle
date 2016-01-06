@@ -9,6 +9,8 @@
 
 namespace MVar\FilteredListBundle\Filter;
 
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
+
 /**
  * This class filters entities where field value matches any of selected choices.
  */

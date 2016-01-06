@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace MVar\FilteredListBundle\Filter;
+namespace MVar\FilteredListBundle\Filter\Data;
 
 /**
  * This interface defines methods each filter data holder must implement.

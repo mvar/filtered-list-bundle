@@ -87,6 +87,10 @@ class Pager
      */
     public function getTotalPages()
     {
+        if ($this->resultsCount < 1) {
+            return 0;
+        }
+
         return ceil($this->resultsCount / $this->itemsPerPage);
     }
 }

@@ -9,7 +9,6 @@
 
 namespace MVar\FilteredListBundle\Filter;
 
-use MVar\FilteredListBundle\Filter\Data\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

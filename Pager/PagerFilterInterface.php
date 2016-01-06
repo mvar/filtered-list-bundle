@@ -9,8 +9,8 @@
 
 namespace MVar\FilteredListBundle\Pager;
 
-use MVar\FilteredListBundle\Filter\FilterDataInterface;
 use MVar\FilteredListBundle\Filter\FilterInterface;
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 
 /**
  * This interface defines methods that pager filter must implement.

@@ -10,7 +10,7 @@
 namespace MVar\FilteredListBundle\Pager;
 
 use MVar\FilteredListBundle\Filter\AbstractFilter;
-use MVar\FilteredListBundle\Filter\FilterDataInterface;
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 
 class PagerFilter extends AbstractFilter implements PagerFilterInterface
 {

@@ -9,6 +9,7 @@
 
 namespace MVar\FilteredListBundle\Filter;
 
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -38,6 +39,10 @@ interface FilterInterface
      * @param FilterDataInterface $filterData
      *
      * @return string
+     *
+     * @todo Filter must return parameters in separate array, not glued into query.
+     *       - that will allow easier SQL injection protection
+     *       - that will allow to effectively use Doctrine query caching
      */
     public function getWhereSnippet(FilterDataInterface $filterData);
 }

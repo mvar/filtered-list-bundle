@@ -9,7 +9,7 @@
 
 namespace MVar\FilteredListBundle\Result;
 
-use MVar\FilteredListBundle\Filter\FilterDataInterface;
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use MVar\FilteredListBundle\Pager\Pager;
 
 class FilteredList implements \IteratorAggregate
