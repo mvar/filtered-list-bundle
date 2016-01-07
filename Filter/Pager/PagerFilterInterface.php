@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace MVar\FilteredListBundle\Pager;
+namespace MVar\FilteredListBundle\Filter\Pager;
 
 use MVar\FilteredListBundle\Filter\FilterInterface;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;

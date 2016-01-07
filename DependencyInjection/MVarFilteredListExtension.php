@@ -104,13 +104,13 @@ class MVarFilteredListExtension extends Extension
     {
         switch ($filter) {
             case 'match';
-                return 'MVar\FilteredListBundle\Filter\MatchFilter';
+                return 'MVar\FilteredListBundle\Filter\Condition\MatchFilter';
             case 'range';
-                return 'MVar\FilteredListBundle\Filter\RangeFilter';
+                return 'MVar\FilteredListBundle\Filter\Condition\RangeFilter';
             case 'choice';
-                return 'MVar\FilteredListBundle\Filter\ChoiceFilter';
+                return 'MVar\FilteredListBundle\Filter\Condition\ChoiceFilter';
             case 'pager';
-                return 'MVar\FilteredListBundle\Pager\PagerFilter';
+                return 'MVar\FilteredListBundle\Filter\Pager\PagerFilter';
         }
 
         throw new \InvalidArgumentException(sprintf('Unknown filter type "%s".', $filter));

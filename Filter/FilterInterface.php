@@ -18,13 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 interface FilterInterface
 {
     /**
-     * Returns filter type.
-     *
-     * @return string
-     */
-    public function getType();
-
-    /**
      * Returns initial filter data object.
      *
      * @param Request $request
@@ -34,15 +27,17 @@ interface FilterInterface
     public function initializeData(Request $request);
 
     /**
-     * Returns DQL snippet for WHERE clause. This method is only called when filter is active.
-     *
-     * @param FilterDataInterface $filterData
+     * Returns filter alias unique per configured filter.
      *
      * @return string
-     *
-     * @todo Filter must return parameters in separate array, not glued into query.
-     *       - that will allow easier SQL injection protection
-     *       - that will allow to effectively use Doctrine query caching
      */
-    public function getWhereSnippet(FilterDataInterface $filterData);
+    public function getAlias();
+
+    /**
+     * Returns filter type unique per filter class.
+     *
+     * @return string
+     */
+    public function getType();
+
 }

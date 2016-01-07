@@ -7,41 +7,36 @@
  * file that was distributed with this source code.
  */
 
-namespace MVar\FilteredListBundle\Filter;
+namespace MVar\FilteredListBundle\Filter\Condition;
 
+use MVar\FilteredListBundle\Filter\AbstractFilter;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * This class filters entities where field value matches any of selected choices.
  */
-class ChoiceFilter extends AbstractFilter implements FilterInterface
+class ChoiceFilter extends AbstractFilter implements ConditionFilterInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function getWhereSnippet(FilterDataInterface $filterData)
+    public function getDqlSnippet(FilterDataInterface $filterData)
     {
         $values = $filterData->getValue();
 
         $clauses = [];
+        $parameters = [];
         foreach ($values as $value) {
-            $clauses[] = sprintf("%s = %s", $this->getConfig()['field'], $this->escapeValue($value));
+            $parameter = Container::camelize($this->getConfig()['field'] . '_' . $value);
+            $clauses[] = sprintf("%s = :%s", $this->getConfig()['field'], $parameter);
+            $parameters[$parameter] = $value;
         }
 
-        return '(' . implode(' OR ', $clauses) . ')';
-    }
-
-    /**
-     * Escapes given value
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-    private function escapeValue($value)
-    {
-        // TODO: escape special chars
-        return "'$value'";
+        return [
+            'snippet' => '(' . implode(' OR ', $clauses) . ')',
+            'parameters' => $parameters,
+        ];
     }
 
     /**

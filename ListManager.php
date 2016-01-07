@@ -10,10 +10,11 @@
 namespace MVar\FilteredListBundle;
 
 use Doctrine\ORM\EntityManagerInterface;
+use MVar\FilteredListBundle\Filter\Condition\ConditionFilterInterface;
 use MVar\FilteredListBundle\Filter\FilterInterface;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
-use MVar\FilteredListBundle\Pager\Pager;
-use MVar\FilteredListBundle\Pager\PagerFilterInterface;
+use MVar\FilteredListBundle\Filter\Pager\Pager;
+use MVar\FilteredListBundle\Filter\Pager\PagerFilterInterface;
 use MVar\FilteredListBundle\Result\FilteredList;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -73,8 +74,6 @@ class ListManager
             }
 
             $this->pager = $filter;
-
-            return;
         }
 
         $this->filters[$alias] = $filter;
@@ -93,7 +92,7 @@ class ListManager
         $query = $this->buildQuery($filterData);
 
         if ($this->pager !== null) {
-            $pagerData = $this->pager->initializeData($request);
+            $pagerData = $filterData[$this->pager->getAlias()];
             $resultsCount = $this->getResultsCount($query);
             $pager = $this->pager->getPager($pagerData, $resultsCount);
         } else {
@@ -131,66 +130,83 @@ class ListManager
     /**
      * Builds result query.
      *
+     * Result example:
+     *
+     *     [
+     *         'query' => 'SELECT p From AppBundle:Player p WHERE p.name = "name',
+     *         'parameters' => [
+     *             'name' => 'Joe',
+     *         ],
+     *     ]
+     *
      * @param FilterDataInterface[] $filterData
      *
-     * @return string
+     * @return array
      */
     private function buildQuery($filterData)
     {
-        $dql = sprintf('SELECT %s FROM %s', $this->select, $this->from);
+        $query = sprintf('SELECT %s FROM %s', $this->select, $this->from);
 
         $whereClauses = [];
+        $parameters = [];
         foreach ($filterData as $filter) {
-            if ($filter->isActive()) {
-                $whereClauses[] = $this->filters[$filter->getAlias()]->getWhereSnippet($filter);
+            if ($filter->isActive() && $this->filters[$filter->getAlias()] instanceof ConditionFilterInterface) {
+                $snippet = $this->filters[$filter->getAlias()]->getDqlSnippet($filter);
+                $whereClauses[] = $snippet['snippet'];
+                $parameters[] = $snippet['parameters'];
             }
         }
 
         if (count($whereClauses)) {
-            $dql .= ' WHERE ' . implode(' AND ', $whereClauses);
+            $query .= ' WHERE ' . implode(' AND ', $whereClauses);
         }
 
-        return $dql;
+        return [
+            'query' => $query,
+            'parameters' => $parameters,
+        ];
     }
 
     /**
      * Executes query and fetches results.
      *
-     * @param string $dql
-     * @param Pager  $pager
+     * @param array $query
+     * @param Pager $pager
      *
      * @return array
      */
-    private function getResults($dql, $pager)
+    private function getResults($query, $pager)
     {
         // TODO: add sort snippet
 
-        $query = $this->entityManager->createQuery($dql);
+        $queryObject = $this->entityManager->createQuery($query['query']);
+        $queryObject->setParameters($query['parameters']);
 
         if ($this->pager !== null) {
             $limit = $pager->getItemsPerPage();
-            $query->setMaxResults($pager->getItemsPerPage());
-            $query->setFirstResult($pager->getPage() * $limit - $limit);
+            $queryObject->setMaxResults($pager->getItemsPerPage());
+            $queryObject->setFirstResult($pager->getPage() * $limit - $limit);
         }
 
-        return $query->getResult();
+        return $queryObject->getResult();
     }
 
     /**
      * Gets total results count.
      *
-     * @param string $dql
+     * @param array $query
      *
      * @return int
      */
-    private function getResultsCount($dql)
+    private function getResultsCount($query)
     {
-        $query = $this->entityManager->createQuery(
+        $queryObject = $this->entityManager->createQuery(
             // TODO: fix hardcoded "p.id"
-            str_replace('SELECT ' . $this->select, 'SELECT COUNT(p.id) cnt', $dql)
+            str_replace('SELECT ' . $this->select, 'SELECT COUNT(p.id) cnt', $query['query'])
         );
+        $queryObject->setParameters($query['parameters']);
 
-        return $query->getSingleScalarResult();
+        return $queryObject->getSingleScalarResult();
     }
 
     /**

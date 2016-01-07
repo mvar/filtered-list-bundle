@@ -7,8 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace MVar\FilteredListBundle\Pager;
+namespace MVar\FilteredListBundle\Filter\Pager;
 
+/**
+ * Pager data holder.
+ */
 class Pager
 {
     /**

@@ -7,18 +7,13 @@
  * file that was distributed with this source code.
  */
 
-namespace MVar\FilteredListBundle\Pager;
+namespace MVar\FilteredListBundle\Filter\Pager;
 
 use MVar\FilteredListBundle\Filter\AbstractFilter;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 
 class PagerFilter extends AbstractFilter implements PagerFilterInterface
 {
-    public function getWhereSnippet(FilterDataInterface $filterData)
-    {
-        // TODO: Implement getWhereSnippet() method.
-    }
-
     /**
      * {@inheritdoc}
      */

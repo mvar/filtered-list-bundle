@@ -71,4 +71,12 @@ abstract class AbstractFilter implements FilterInterface
     {
         return $this->config;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
 }
