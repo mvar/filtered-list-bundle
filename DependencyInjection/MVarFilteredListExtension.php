@@ -109,6 +109,8 @@ class MVarFilteredListExtension extends Extension
                 return 'MVar\FilteredListBundle\Filter\Condition\RangeFilter';
             case 'choice';
                 return 'MVar\FilteredListBundle\Filter\Condition\ChoiceFilter';
+            case 'sort';
+                return 'MVar\FilteredListBundle\Filter\Sort\SortFilter';
             case 'pager';
                 return 'MVar\FilteredListBundle\Filter\Pager\PagerFilter';
         }

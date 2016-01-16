@@ -33,5 +33,5 @@ interface ConditionFilterInterface extends FilterInterface
      *
      * @return array
      */
-    public function getDqlSnippet(FilterDataInterface $filterData);
+    public function getWhereSnippet(FilterDataInterface $filterData);
 }

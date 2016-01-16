@@ -21,7 +21,7 @@ class MatchFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getDqlSnippet(FilterDataInterface $filterData)
+    public function getWhereSnippet(FilterDataInterface $filterData)
     {
         $parameter = Container::camelize($this->getConfig()['field']);
 

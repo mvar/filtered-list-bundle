@@ -39,5 +39,4 @@ interface FilterInterface
      * @return string
      */
     public function getType();
-
 }

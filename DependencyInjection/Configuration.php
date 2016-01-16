@@ -76,6 +76,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->buildFilterNode('match'))
                         ->append($this->buildFilterNode('range'))
                         ->append($this->buildFilterNode('choice'))
+                        ->append($this->buildFilterNode('sort'))
                         ->append($this->buildFilterNode('pager'))
                     ->end()
                 ->end()
@@ -124,7 +125,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end();
 
-        if ($filter != 'pager') {
+        if ($filter != 'sort' && $filter != 'pager') {
             $children
                 ->children()
                     ->scalarNode('field')
@@ -146,6 +147,37 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                                 ->children()
                                     ->scalarNode('value')->end()
+                                    ->scalarNode('name')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end();
+                break;
+            case 'sort':
+                $children
+                    ->children()
+                        ->arrayNode('choices')
+                            ->useAttributeAsKey('value')
+                            ->beforeNormalization()
+                                ->always(function ($a) {
+                                    foreach ($a as $name => $v) {
+                                        if (is_string($v)) {
+                                            $a[$name] = [
+                                                'field' => $v,
+                                                'name' => $name,
+                                            ];
+                                        } elseif (!isset($v['name'])) {
+                                            $a[$name]['name'] = $name;
+                                        }
+                                    }
+                                    return $a;
+                                })
+                            ->end()
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('value')->end()
+                                    ->scalarNode('field')->isRequired()->end()
+                                    ->enumNode('order')->values(['asc', 'desc'])->defaultValue('asc')->end()
                                     ->scalarNode('name')->end()
                                 ->end()
                             ->end()

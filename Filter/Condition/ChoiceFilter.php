@@ -21,7 +21,7 @@ class ChoiceFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getDqlSnippet(FilterDataInterface $filterData)
+    public function getWhereSnippet(FilterDataInterface $filterData)
     {
         $values = $filterData->getValue();
 

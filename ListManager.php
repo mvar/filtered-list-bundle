@@ -15,6 +15,7 @@ use MVar\FilteredListBundle\Filter\FilterInterface;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use MVar\FilteredListBundle\Filter\Pager\Pager;
 use MVar\FilteredListBundle\Filter\Pager\PagerFilterInterface;
+use MVar\FilteredListBundle\Filter\Sort\SortFilterInterface;
 use MVar\FilteredListBundle\Result\FilteredList;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -99,7 +100,7 @@ class ListManager
             $pager = null;
         }
 
-        $results = $this->getResults($query, $pager);
+        $results = $this->getResults($query, $filterData, $pager); // TODO: if count is "0" do not execute results query
 
         // TODO: get choices
 
@@ -133,7 +134,7 @@ class ListManager
      * Result example:
      *
      *     [
-     *         'query' => 'SELECT p From AppBundle:Player p WHERE p.name = "name',
+     *         'query' => 'SELECT p From AppBundle:Player p WHERE p.name = :name',
      *         'parameters' => [
      *             'name' => 'Joe',
      *         ],
@@ -151,11 +152,13 @@ class ListManager
         $parameters = [];
         foreach ($filterData as $filter) {
             if ($filter->isActive() && $this->filters[$filter->getAlias()] instanceof ConditionFilterInterface) {
-                $snippet = $this->filters[$filter->getAlias()]->getDqlSnippet($filter);
+                $snippet = $this->filters[$filter->getAlias()]->getWhereSnippet($filter);
                 $whereClauses[] = $snippet['snippet'];
-                $parameters[] = $snippet['parameters'];
+                $parameters = array_merge($parameters, $snippet['parameters']);
             }
         }
+
+        $whereClauses = array_filter($whereClauses);
 
         if (count($whereClauses)) {
             $query .= ' WHERE ' . implode(' AND ', $whereClauses);
@@ -171,15 +174,29 @@ class ListManager
      * Executes query and fetches results.
      *
      * @param array $query
+     * @param FilterDataInterface[] $filterData
      * @param Pager $pager
      *
      * @return array
      */
-    private function getResults($query, $pager)
+    private function getResults($query, $filterData, $pager)
     {
-        // TODO: add sort snippet
+        $orderBy = [];
 
-        $queryObject = $this->entityManager->createQuery($query['query']);
+        foreach ($this->filters as $alias => $filter) {
+            if ($filter instanceof SortFilterInterface && $filterData[$alias]->isActive()) {
+                $orderBy[] = $filter->getOrderBySnippet($filterData[$alias]);
+            }
+        }
+
+        $orderBy = array_filter($orderBy);
+        $dql = $query['query'];
+
+        if (count($orderBy) > 0) {
+            $dql .= ' ORDER BY ' . implode(', ', $orderBy);
+        }
+
+        $queryObject = $this->entityManager->createQuery($dql);
         $queryObject->setParameters($query['parameters']);
 
         if ($this->pager !== null) {

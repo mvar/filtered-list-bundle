@@ -21,7 +21,7 @@ class RangeFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getDqlSnippet(FilterDataInterface $filterData)
+    public function getWhereSnippet(FilterDataInterface $filterData)
     {
         $values = explode(',', $filterData->getValue());
         $from = $values[0];
