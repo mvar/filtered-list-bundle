@@ -23,6 +23,9 @@
     "autoload": {
         "psr-4": {
             "MVar\\FilteredListBundle\\": ""
-        }
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     }
 }

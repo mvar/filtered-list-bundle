@@ -64,8 +64,10 @@ mvar_filtered_list:
         players:
             select: "p"
             from: "AppBundle:Player p"
-            filters: [ sex, age, pager ]
-    filters:
+            filters: [ name, sex, age, pager ]
+    filters:     
+        match:
+            name: p.name
         choice:
             sex:
                 field: p.sex
