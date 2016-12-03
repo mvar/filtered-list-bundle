@@ -10,6 +10,7 @@
 namespace MVar\FilteredListBundle\Filter\Condition;
 
 use MVar\FilteredListBundle\Filter\AbstractFilter;
+use MVar\FilteredListBundle\Filter\Data\ChoiceFilterData;
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -44,7 +45,7 @@ class ChoiceFilter extends AbstractFilter implements ConditionFilterInterface
      */
     protected function getFilterDataClass()
     {
-        return 'MVar\FilteredListBundle\Filter\Data\ChoiceFilterData';
+        return ChoiceFilterData::class;
     }
 
     /**

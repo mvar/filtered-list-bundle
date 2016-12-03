@@ -9,6 +9,7 @@
 
 namespace MVar\FilteredListBundle\Filter;
 
+use MVar\FilteredListBundle\Filter\Data\FilterData;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -59,7 +60,7 @@ abstract class AbstractFilter implements FilterInterface
      */
     protected function getFilterDataClass()
     {
-        return 'MVar\FilteredListBundle\Filter\Data\FilterData';
+        return FilterData::class;
     }
 
     /**

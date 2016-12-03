@@ -39,7 +39,7 @@ class SortFilter extends AbstractFilter implements SortFilterInterface
      */
     protected function getFilterDataClass()
     {
-        return 'MVar\FilteredListBundle\Filter\Data\SingleChoiceFilterData';
+        return SingleChoiceFilterData::class;
     }
 
     /**

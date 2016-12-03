@@ -5,7 +5,7 @@ MVarFilteredListBundle
 
 This bundle helps to quickly create simple lists using Symfony and Doctrine ORM.
 This bundle was created with simplicity in mind. It best suites small to medium
-projects without superb high needs for performance or features.
+size projects without superb high needs for performance or features.
 
 Installation
 ---
@@ -86,6 +86,8 @@ List template:
 
 ```twig
 {# app/Resources/views/default/list.html.twig #}
+
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <ul>

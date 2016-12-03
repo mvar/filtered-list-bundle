@@ -49,9 +49,9 @@ class ListManager
     /**
      * Constructor.
      *
-     * @param $entityManager
-     * @param string $select
-     * @param string $from
+     * @param EntityManagerInterface $entityManager
+     * @param string                 $select
+     * @param string                 $from
      */
     public function __construct(EntityManagerInterface $entityManager, $select, $from)
     {
