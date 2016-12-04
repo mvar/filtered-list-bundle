@@ -17,7 +17,7 @@ class PagerFilter extends AbstractFilter implements PagerFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getPager(FilterDataInterface $filterData, $resultsCount)
+    public function getPager(FilterDataInterface $filterData, int $resultsCount)
     {
         $page = $filterData->getValue();
         $page = $page > 1 ? $page : 1;
@@ -28,7 +28,7 @@ class PagerFilter extends AbstractFilter implements PagerFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return 'pager';
     }

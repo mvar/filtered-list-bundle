@@ -16,7 +16,7 @@ class ChoiceFilterData extends FilterData
      *
      * @return array
      */
-    public function getChoices()
+    public function getChoices() : array
     {
         $choices = $this->getParameters()['choices'];
         $values = $this->getValue();
@@ -31,7 +31,7 @@ class ChoiceFilterData extends FilterData
     /**
      * {@inheritdoc}
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return is_array($this->getValue());
     }

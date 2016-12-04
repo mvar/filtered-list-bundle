@@ -18,12 +18,12 @@ use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 interface PagerFilterInterface extends FilterInterface
 {
     /**
-     * Returns instance of pager.
+     * Builds and returns instance of pager.
      *
      * @param FilterDataInterface $filterData
      * @param int                 $resultsCount
      *
      * @return Pager
      */
-    public function getPager(FilterDataInterface $filterData, $resultsCount);
+    public function getPager(FilterDataInterface $filterData, int $resultsCount);
 }

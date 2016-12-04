@@ -36,7 +36,7 @@ class Pager
      * @param int $itemsPerPage
      * @param int $resultsCount
      */
-    public function __construct($page, $itemsPerPage, $resultsCount)
+    public function __construct(int $page, int $itemsPerPage, int $resultsCount)
     {
         $this->page = $page;
         $this->itemsPerPage = $itemsPerPage;
@@ -48,7 +48,7 @@ class Pager
      *
      * @return int
      */
-    public function getPage()
+    public function getPage() : int
     {
         return $this->page;
     }
@@ -58,7 +58,7 @@ class Pager
      *
      * @return int
      */
-    public function getItemsPerPage()
+    public function getItemsPerPage() : int
     {
         return $this->itemsPerPage;
     }
@@ -68,7 +68,7 @@ class Pager
      *
      * @return int
      */
-    public function getResultsCount()
+    public function getResultsCount() : int
     {
         return $this->resultsCount;
     }
@@ -78,7 +78,7 @@ class Pager
      *
      * @return bool
      */
-    public function hasNextPage()
+    public function hasNextPage() : bool
     {
         return $this->resultsCount > $this->page * $this->itemsPerPage;
     }
@@ -88,7 +88,7 @@ class Pager
      *
      * @return int
      */
-    public function getTotalPages()
+    public function getTotalPages() : int
     {
         if ($this->resultsCount < 1) {
             return 0;

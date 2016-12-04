@@ -10,7 +10,7 @@
 namespace MVar\FilteredListBundle\Result;
 
 use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
-use MVar\FilteredListBundle\Pager\Pager;
+use MVar\FilteredListBundle\Filter\Pager\Pager;
 
 class FilteredList implements \IteratorAggregate
 {
@@ -64,11 +64,11 @@ class FilteredList implements \IteratorAggregate
     }
 
     /**
-     * Returns list of URL parameters for current state.
+     * Returns list of URL parameters for the current state.
      *
      * @return array
      */
-    public function getUrlParameters()
+    public function getUrlParameters() : array
     {
         $parameters = [];
 
@@ -102,7 +102,7 @@ class FilteredList implements \IteratorAggregate
      *
      * @return int
      */
-    public function getResultsCount()
+    public function getResultsCount() : int
     {
         return $this->pager !== null ? $this->pager->getResultsCount() : count($this->results);
     }

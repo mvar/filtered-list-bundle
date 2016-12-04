@@ -53,7 +53,7 @@ class ListManager
      * @param string                 $select
      * @param string                 $from
      */
-    public function __construct(EntityManagerInterface $entityManager, $select, $from)
+    public function __construct(EntityManagerInterface $entityManager, string $select, string $from)
     {
         $this->filters = [];
         $this->entityManager = $entityManager;
@@ -67,7 +67,7 @@ class ListManager
      * @param FilterInterface $filter
      * @param string          $alias
      */
-    public function addFilter(FilterInterface $filter, $alias)
+    public function addFilter(FilterInterface $filter, string $alias)
     {
         if ($filter instanceof PagerFilterInterface) {
             if ($this->pager !== null) {
@@ -87,7 +87,7 @@ class ListManager
      *
      * @return FilteredList
      */
-    public function handleRequest(Request $request)
+    public function handleRequest(Request $request) : FilteredList
     {
         $filterData = $this->initializeFilterData($request);
         $query = $this->buildQuery($filterData);
@@ -173,9 +173,9 @@ class ListManager
     /**
      * Executes query and fetches results.
      *
-     * @param array $query
+     * @param array                 $query
      * @param FilterDataInterface[] $filterData
-     * @param Pager $pager
+     * @param Pager                 $pager
      *
      * @return array
      */

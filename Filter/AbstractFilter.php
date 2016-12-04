@@ -10,6 +10,7 @@
 namespace MVar\FilteredListBundle\Filter;
 
 use MVar\FilteredListBundle\Filter\Data\FilterData;
+use MVar\FilteredListBundle\Filter\Data\FilterDataInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -33,7 +34,7 @@ abstract class AbstractFilter implements FilterInterface
      * @param string $alias
      * @param array  $config
      */
-    public function __construct($alias, array $config)
+    public function __construct(string $alias, array $config)
     {
         $this->alias = $alias;
         $this->config = $config;
@@ -42,7 +43,7 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function initializeData(Request $request)
+    public function initializeData(Request $request) : FilterDataInterface
     {
         $config = ['type' => $this->getType(), 'alias' => $this->alias];
         $config = array_merge($config, $this->config);
@@ -58,7 +59,7 @@ abstract class AbstractFilter implements FilterInterface
      *
      * @return string
      */
-    protected function getFilterDataClass()
+    protected function getFilterDataClass() : string
     {
         return FilterData::class;
     }
@@ -68,7 +69,7 @@ abstract class AbstractFilter implements FilterInterface
      *
      * @return array
      */
-    protected function getConfig()
+    protected function getConfig() : array
     {
         return $this->config;
     }
@@ -76,7 +77,7 @@ abstract class AbstractFilter implements FilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias() : string
     {
         return $this->alias;
     }

@@ -24,19 +24,19 @@ interface FilterInterface
      *
      * @return FilterDataInterface
      */
-    public function initializeData(Request $request);
+    public function initializeData(Request $request) : FilterDataInterface;
 
     /**
      * Returns filter alias unique per configured filter.
      *
      * @return string
      */
-    public function getAlias();
+    public function getAlias() : string;
 
     /**
      * Returns filter type unique per filter class.
      *
      * @return string
      */
-    public function getType();
+    public function getType() : string;
 }

@@ -39,7 +39,7 @@ class FilterData implements FilterDataInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->parameters['type'];
     }
@@ -47,7 +47,7 @@ class FilterData implements FilterDataInterface
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias() : string
     {
         return $this->parameters['alias'];
     }
@@ -55,7 +55,7 @@ class FilterData implements FilterDataInterface
     /**
      * {@inheritdoc}
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->getValue() !== null && $this->getValue() !== '';
     }
@@ -63,7 +63,7 @@ class FilterData implements FilterDataInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequestParameter()
+    public function getRequestParameter() : string
     {
         return $this->parameters['request_parameter'];
     }
@@ -81,7 +81,7 @@ class FilterData implements FilterDataInterface
      *
      * @return array
      */
-    protected function getParameters()
+    protected function getParameters() : array
     {
         return $this->parameters;
     }

@@ -19,28 +19,28 @@ interface FilterDataInterface
      *
      * @return string
      */
-    public function getType();
+    public function getType() : string;
 
     /**
      * Returns filter alias.
      *
      * @return string
      */
-    public function getAlias();
+    public function getAlias() : string;
 
     /**
      * Returns TRUE if filter is active, FALSE otherwise.
      *
      * @return bool
      */
-    public function isActive();
+    public function isActive() : bool;
 
     /**
      * Returns name of request parameter.
      *
      * @return string
      */
-    public function getRequestParameter();
+    public function getRequestParameter() : string;
 
     /**
      * Returns current value.

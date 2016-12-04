@@ -43,7 +43,7 @@ class ChoiceFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    protected function getFilterDataClass()
+    protected function getFilterDataClass() : string
     {
         return ChoiceFilterData::class;
     }
@@ -51,7 +51,7 @@ class ChoiceFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return 'choice';
     }

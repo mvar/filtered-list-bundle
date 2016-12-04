@@ -37,7 +37,7 @@ class SortFilter extends AbstractFilter implements SortFilterInterface
     /**
      * {@inheritdoc}
      */
-    protected function getFilterDataClass()
+    protected function getFilterDataClass() : string
     {
         return SingleChoiceFilterData::class;
     }
@@ -45,7 +45,7 @@ class SortFilter extends AbstractFilter implements SortFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return 'sort';
     }

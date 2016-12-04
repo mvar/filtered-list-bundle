@@ -52,7 +52,7 @@ class RangeFilter extends AbstractFilter implements ConditionFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType() : string
     {
         return 'range';
     }

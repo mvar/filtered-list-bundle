@@ -19,7 +19,7 @@ class SingleChoiceFilterData extends FilterData
      *
      * @return array
      */
-    public function getChoices()
+    public function getChoices() : array
     {
         $choices = $this->getParameters()['choices'];
         $value = $this->getValue();
@@ -34,7 +34,7 @@ class SingleChoiceFilterData extends FilterData
     /**
      * {@inheritdoc}
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return isset($this->getParameters()['choices'][$this->getValue()]);
     }

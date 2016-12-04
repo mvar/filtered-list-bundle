@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.5",
+        "php": ">=7",
         "symfony/config": "~2.8|~3.2",
         "symfony/dependency-injection": "~2.8|~3.2",
         "symfony/http-foundation": "~2.8|~3.2",
